@@ -1,34 +1,60 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+// 1. Importamos el servicio
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterModule],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  mensajeError: string = ''; // Para mostrar errores del backend
 
+  // 2. Inyectamos el AuthService en el constructor
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private authService: AuthService,
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', Validators.required],
     });
   }
 
+  // 3. Actualizamos el método de login
   onLogin() {
     if (this.loginForm.valid) {
-      // Simulación de login según requerimiento de la Semana 5
-      console.log('Intentando conexión con datos locales:', this.loginForm.value);
-      alert('¡Bienvenido al sistema!');
-      //this.router.navigate(['/catalogo']);
-      this.router.navigate(['/perfil']);
+      // Limpiamos mensajes anteriores
+      this.mensajeError = '';
+
+      // Llamamos al backend real
+      this.authService.login(this.loginForm.value).subscribe({
+        next: (respuesta) => {
+          console.log('Login exitoso desde Spring Boot:', respuesta);
+
+          // Guardar el token si tu backend usa JWT
+          // localStorage.setItem('token', respuesta.token);
+
+          // ==========================================
+          // Guardamos la sesión en el navegador
+          // ==========================================
+          localStorage.setItem('usuarioLogueado', JSON.stringify(respuesta));
+
+          alert('¡Bienvenido al sistema!');
+          this.router.navigate(['/perfil']);
+        },
+        error: (err) => {
+          console.error('Error en el login:', err);
+          // Si el backend responde con error 401 (No autorizado) o similar
+          this.mensajeError = 'Credenciales incorrectas o el servidor no responde.';
+        },
+      });
     }
   }
 }

@@ -1,32 +1,55 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+
+// Definimos la estructura exacta que viene de tu Spring Boot
+interface UsuarioSesion {
+  id: number;
+  nombreUsuario: string;
+  email: string;
+  rol: string;
+}
 
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [], // Componente ultraligero
+  imports: [RouterModule],
   templateUrl: './perfil.html',
   styleUrl: './perfil.scss',
 })
 export class PerfilComponent implements OnInit {
-  // Datos simulados (En el futuro vendrán de tu AuthService o LocalStorage)
-  usuario = {
-    nombre: 'Patricio',
-    email: 'estudiante@duocuc.cl',
-    rol: 'Administrador del Sistema',
-    fechaRegistro: '09/04/2026',
+  // Inicializamos con valores vacíos pero con las llaves correctas del Backend
+  usuario: UsuarioSesion = {
+    id: 0,
+    nombreUsuario: 'Cargando...',
+    email: '',
+    rol: '',
   };
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    // Aquí se cargará la información desde la base de datos más adelante
-    console.log('Vista de perfil cargada para:', this.usuario.nombre);
+    // 1. Intentamos obtener la sesión del LocalStorage
+    const usuarioGuardado = localStorage.getItem('usuarioLogueado');
+
+    if (usuarioGuardado) {
+      try {
+        // 2. Parseamos el JSON y lo asignamos a nuestra variable
+        this.usuario = JSON.parse(usuarioGuardado);
+        console.log('✅ Perfil sincronizado con Oracle:', this.usuario.nombreUsuario);
+      } catch (error) {
+        console.error('❌ Error al leer la sesión:', error);
+        this.router.navigate(['/login']);
+      }
+    } else {
+      // 3. Si no hay sesión, mandamos al usuario de vuelta al Login
+      console.warn('⚠️ No hay sesión activa. Redirigiendo...');
+      this.router.navigate(['/login']);
+    }
   }
 
   cerrarSesion() {
-    // Simulamos la limpieza de sesión
-    alert('Sesión cerrada correctamente. ¡Hasta pronto!');
+    localStorage.removeItem('usuarioLogueado');
+    // Opcional: limpiar también otros datos si los hubiera
     this.router.navigate(['/login']);
   }
 }
