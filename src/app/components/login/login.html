@@ -1,0 +1,38 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-4">
+      <div class="card shadow border-0">
+        <div class="card-body p-5">
+          <h2 class="text-center mb-4">Iniciar Sesión</h2>
+          
+          <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+            <div class="mb-3">
+              <label class="form-label">Correo Electrónico</label>
+              <input type="email" formControlName="email" class="form-control" 
+                     placeholder="ejemplo@correo.cl"
+                     [ngClass]="{'is-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Contraseña</label>
+              <input type="password" formControlName="password" class="form-control"
+                     [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}">
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mt-3" [disabled]="loginForm.invalid">
+              Ingresar
+            </button>
+            
+            <div class="text-center mt-3">
+              <a routerLink="/recuperar-password" class="small">¿Olvidaste tu contraseña?</a>
+            </div>
+          </form>
+          
+        </div>
+      </div>
+      <p class="text-center mt-4">
+        ¿No tienes cuenta? <a routerLink="/registro">Regístrate aquí</a>
+      </p>
+    </div>
+  </div>
+</div>
