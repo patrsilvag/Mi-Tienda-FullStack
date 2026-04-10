@@ -1,0 +1,53 @@
+<div class="row justify-content-center align-items-center" style="min-height: 75vh;">
+  <div class="col-11 col-md-8 col-lg-5">
+    <div class="card shadow-lg border-0">
+      <div class="card-body p-4 p-md-5">
+        <h3 class="text-center fw-bold mb-4">Crear Cuenta</h3>
+        
+        <form [formGroup]="registroForm" (ngSubmit)="onRegistro()">
+          
+          <div class="mb-3">
+            <label class="form-label">Nombre Completo</label>
+            <input type="text" formControlName="nombre" class="form-control" 
+                   [ngClass]="{'is-invalid': registroForm.get('nombre')?.invalid && registroForm.get('nombre')?.touched}">
+            <div class="invalid-feedback">El nombre debe tener al menos 3 caracteres.</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Correo Electrónico</label>
+            <input type="email" formControlName="email" class="form-control"
+                   [ngClass]="{'is-invalid': registroForm.get('email')?.invalid && registroForm.get('email')?.touched}">
+            <div class="invalid-feedback">Ingresa un correo electrónico válido.</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input type="password" formControlName="password" class="form-control"
+                   [ngClass]="{'is-invalid': registroForm.get('password')?.invalid && registroForm.get('password')?.touched}">
+            
+            <div class="mt-2 small">
+              <ul class="list-unstyled">
+                <li [class.text-success]="!registroForm.get('password')?.errors?.['minlength']" 
+                    [class.text-danger]="registroForm.get('password')?.errors?.['minlength'] && registroForm.get('password')?.touched">
+                  ● Mínimo 8 caracteres
+                </li>
+                <li [class.text-success]="!registroForm.get('password')?.hasError('pattern')"
+                    [class.text-danger]="registroForm.get('password')?.hasError('pattern') && registroForm.get('password')?.touched">
+                  ● Debe incluir Mayúscula, Número y Símbolo ($@!%*?&)
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-success w-100 py-2 mt-3" [disabled]="registroForm.invalid">
+            Registrarme
+          </button>
+        </form>
+
+        <div class="text-center mt-4">
+          <p class="small">¿Ya tienes cuenta? <a routerLink="/login" class="fw-bold">Ingresa aquí</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

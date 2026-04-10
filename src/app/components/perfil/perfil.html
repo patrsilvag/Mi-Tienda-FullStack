@@ -1,0 +1,41 @@
+<div class="row justify-content-center align-items-center" style="min-height: 75vh;">
+  <div class="col-11 col-md-8 col-lg-5">
+    <div class="card shadow-lg border-0 overflow-hidden">
+      
+      <div class="bg-primary text-white text-center py-4">
+        <div class="mb-3">
+          <div class="d-inline-flex justify-content-center align-items-center bg-white text-primary rounded-circle shadow-sm" 
+               style="width: 80px; height: 80px; font-size: 2.5rem; font-weight: bold;">
+            {{ usuario.nombre.charAt(0) }}
+          </div>
+        </div>
+        <h3 class="fw-bold mb-0">{{ usuario.nombre }}</h3>
+        <p class="mb-0 opacity-75">{{ usuario.rol }}</p>
+      </div>
+
+      <div class="card-body p-4 p-md-5">
+        <h5 class="fw-bold border-bottom pb-2 mb-4 text-secondary">Información Personal</h5>
+        
+        <div class="mb-3">
+          <label class="text-muted small fw-bold text-uppercase">Correo Electrónico</label>
+          <p class="fs-5 mb-0">{{ usuario.email }}</p>
+        </div>
+
+        <div class="mb-4">
+          <label class="text-muted small fw-bold text-uppercase">Miembro desde</label>
+          <p class="fs-5 mb-0">{{ usuario.fechaRegistro }}</p>
+        </div>
+
+        <div class="d-grid gap-2 mt-4">
+          <button class="btn btn-outline-primary py-2 shadow-sm" disabled>
+            Editar Perfil (Próximamente)
+          </button>
+          <button class="btn btn-danger py-2 shadow-sm" (click)="cerrarSesion()">
+            Cerrar Sesión
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

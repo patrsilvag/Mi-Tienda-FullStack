@@ -62,7 +62,8 @@
               "buildTarget": "front-tienda-pedidos:build:production"
             },
             "development": {
-              "buildTarget": "front-tienda-pedidos:build:development"
+              "buildTarget": "front-tienda-pedidos:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

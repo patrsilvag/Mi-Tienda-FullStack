@@ -7,32 +7,32 @@
           
           <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
             <div class="mb-3">
-              <label class="form-label">Correo Electrónico</label>
-              <input type="email" formControlName="email" class="form-control" 
-                     placeholder="ejemplo@correo.cl"
-                     [ngClass]="{'is-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}">
-            </div>
+            <label class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" formControlName="email" 
+                   placeholder="nombre@ejemplo.com">
+          </div>
 
-            <div class="mb-3">
-              <label class="form-label">Contraseña</label>
-              <input type="password" formControlName="password" class="form-control"
-                     [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}">
-            </div>
+          <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input type="password" class="form-control" formControlName="password">
+          </div>
 
-            <button type="submit" class="btn btn-primary w-100 mt-3" [disabled]="loginForm.invalid">
-              Ingresar
-            </button>
-            
-            <div class="text-center mt-3">
-              <a routerLink="/recuperar-password" class="small">¿Olvidaste tu contraseña?</a>
-            </div>
-          </form>
-          
+          <div class="text-end mb-4">
+            <a routerLink="/recuperar-password" class="small fw-bold text-decoration-none">
+              ¿Olvidaste tu contraseña?
+            </a>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 py-2 shadow-sm" 
+                  [disabled]="loginForm.invalid">
+            Entrar al Sistema
+          </button>
+        </form>
+
+        <div class="mt-4 text-center">
+          <p class="small text-muted">¿No tienes cuenta? 
+            <a routerLink="/registro" class="text-decoration-none fw-bold">Regístrate</a>
+          </p>
         </div>
-      </div>
-      <p class="text-center mt-4">
-        ¿No tienes cuenta? <a routerLink="/registro">Regístrate aquí</a>
-      </p>
-    </div>
   </div>
 </div>
