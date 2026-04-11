@@ -15,6 +15,11 @@ import { UsuarioService } from '../../services/usuario';
 export class RegistroComponent {
   registroForm: FormGroup;
 
+  showPassword = false;
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
+  }
+
   constructor(
     private fb: FormBuilder,
     private router: Router,

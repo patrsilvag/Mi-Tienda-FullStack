@@ -12,6 +12,12 @@ import { Router, RouterModule } from '@angular/router';
 export class HeaderComponent {
   constructor(private router: Router) {}
 
+  // Función que verifica si el usuario está logueado
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('usuarioLogueado');
+    // Retorna true si existe la clave en localStorage
+  }
+
   // ESTA ES LA FUNCIÓN QUE FALTA
   cerrarSesion(): void {
     // 1. Eliminamos los datos de la sesión local

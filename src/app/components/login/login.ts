@@ -15,6 +15,12 @@ export class LoginComponent {
   loginForm: FormGroup;
   mensajeError: string = ''; // Para mostrar errores del backend
 
+  showPassword = false; 
+
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
+  }
+
   // 2. Inyectamos el AuthService en el constructor
   constructor(
     private fb: FormBuilder,

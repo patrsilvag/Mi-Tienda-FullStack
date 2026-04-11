@@ -12,10 +12,21 @@
                    placeholder="nombre@ejemplo.com">
           </div>
 
-          <div class="mb-3">
-            <label class="form-label">Contraseña</label>
-            <input type="password" class="form-control" formControlName="password">
-          </div>
+         <div class="mb-3">
+        <label class="form-label">Contraseña</label>
+        <div class="input-group">
+            <input [type]="showPassword ? 'text' : 'password'" 
+                class="form-control" 
+                formControlName="password"
+                placeholder="Ingresa tu contraseña">
+            
+            <button class="btn btn-outline-secondary" 
+                    type="button" 
+                    (click)="togglePassword()">
+            <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+            </button>
+        </div>
+        </div>
 
           <div class="text-end mb-4">
             <a routerLink="/recuperar-password" class="small fw-bold text-decoration-none">
