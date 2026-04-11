@@ -16,26 +16,52 @@
       <div class="card-body p-4 p-md-5">
         <h5 class="fw-bold border-bottom pb-2 mb-4 text-secondary">Información Personal</h5>
         
-        <div class="mb-3">
-          <label class="text-muted small fw-bold text-uppercase">Correo Electrónico</label>
-          <p class="fs-5 mb-0">{{ usuario.email }}</p>
-        </div>
+        <form [formGroup]="perfilForm" (ngSubmit)="onActualizar()">
+          
+          <div class="mb-3">
+            <label class="text-muted small fw-bold text-uppercase">Nombre de Usuario</label>
+            @if (!editando) {
+              <p class="fs-5 mb-0">{{ usuario.nombreUsuario }}</p>
+            } @else {
+              <input type="text" formControlName="nombreUsuario" class="form-control">
+            }
+          </div>
 
-        <div class="mb-4">
-          <label class="text-muted small fw-bold text-uppercase">Rol</label>
-           <p class="fs-5 mb-0">{{ usuario.rol }}</p> 
-        </div>
+          <div class="mb-3">
+            <label class="text-muted small fw-bold text-uppercase">Correo Electrónico</label>
+            @if (!editando) {
+              <p class="fs-5 mb-0">{{ usuario.email }}</p>
+            } @else {
+              <input type="email" formControlName="email" class="form-control">
+            }
+          </div>
 
-        <div class="d-grid gap-2 mt-4">
-          <button class="btn btn-outline-primary py-2 shadow-sm" disabled>
-            Editar Perfil (Próximamente)
-          </button>
-          <button class="btn btn-danger py-2 shadow-sm" (click)="cerrarSesion()">
-            Cerrar Sesión
-          </button>
-        </div>
+          @if (editando) {
+            <div class="mb-4">
+              <label class="text-muted small fw-bold text-uppercase">Nueva Contraseña</label>
+              <input type="password" formControlName="password" class="form-control" placeholder="Mínimo 8 caracteres">
+            </div>
+          }
+
+          <div class="d-grid gap-2 mt-4">
+            @if (!editando) {
+              <button type="button" (click)="toggleEdicion()" class="btn btn-outline-primary py-2 shadow-sm">
+                Editar Perfil
+              </button>
+              <button type="button" class="btn btn-danger py-2 shadow-sm" (click)="cerrarSesion()">
+                Cerrar Sesión
+              </button>
+            } @else {
+              <button type="submit" [disabled]="perfilForm.invalid" class="btn btn-success py-2 shadow-sm">
+                Guardar Cambios
+              </button>
+              <button type="button" (click)="toggleEdicion()" class="btn btn-link text-muted">
+                Cancelar
+              </button>
+            }
+          </div>
+        </form>
       </div>
-
     </div>
   </div>
 </div>

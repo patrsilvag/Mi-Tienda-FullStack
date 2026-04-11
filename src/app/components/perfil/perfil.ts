@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+// CommonModule es opcional si solo usas @if / @else
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { UsuarioService } from '../../services/usuario';
 
-// Estructura de datos alineada con tu Entity de Spring Boot y Oracle Cloud
 interface UsuarioSesion {
   id: number;
   nombreUsuario: string;
@@ -15,7 +14,8 @@ interface UsuarioSesion {
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  // Mantén RouterModule para los enlaces de navegación si los usas
+  imports: [ReactiveFormsModule, RouterModule],
   templateUrl: './perfil.html',
   styleUrl: './perfil.scss',
 })
@@ -34,11 +34,10 @@ export class PerfilComponent implements OnInit {
     private router: Router,
     private usuarioService: UsuarioService,
   ) {
-    // Definición del formulario con las 4 validaciones de seguridad requeridas
     this.perfilForm = this.fb.group({
       nombreUsuario: ['', [Validators.required, Validators.minLength(4)]],
       email: ['', [Validators.required, Validators.email]],
-      // Validación de contraseña: Longitud, números y caracteres especiales
+      // Cumple con las 4 validaciones: Requerido, Longitud Min, Números y Especiales
       password: [
         '',
         [
@@ -56,14 +55,14 @@ export class PerfilComponent implements OnInit {
     if (usuarioGuardado) {
       try {
         this.usuario = JSON.parse(usuarioGuardado);
-        // Precargar datos en el formulario
         this.perfilForm.patchValue({
           nombreUsuario: this.usuario.nombreUsuario,
           email: this.usuario.email,
         });
+        console.log('✅ Sesión recuperada para:', this.usuario.nombreUsuario);
       } catch (error) {
-        console.error('Error al sincronizar sesión:', error);
-        this.router.navigate(['/login']);
+        console.error('❌ Error al parsear sesión:', error);
+        this.cerrarSesion();
       }
     } else {
       this.router.navigate(['/login']);
@@ -72,29 +71,35 @@ export class PerfilComponent implements OnInit {
 
   toggleEdicion(): void {
     this.editando = !this.editando;
+    // Si cancelas, reseteamos el form a los valores originales del usuario
+    if (!this.editando) {
+      this.perfilForm.patchValue({
+        nombreUsuario: this.usuario.nombreUsuario,
+        email: this.usuario.email,
+      });
+    }
   }
 
-  // Método que conecta con tu microservicio de Oracle Cloud
   onActualizar(): void {
     if (this.perfilForm.valid) {
       const datosActualizados = {
         ...this.perfilForm.value,
-        rol: this.usuario.rol, // Mantenemos el rol original
+        rol: this.usuario.rol,
       };
 
       this.usuarioService
         .actualizar(this.usuario.id, datosActualizados, this.usuario.rol)
         .subscribe({
           next: (res: any) => {
-            // Actualizamos la sesión local con la respuesta del backend
             localStorage.setItem('usuarioLogueado', JSON.stringify(res));
             this.usuario = res;
             this.editando = false;
-            alert('¡Perfil actualizado con éxito en la nube!');
+            alert('¡Perfil actualizado con éxito en Oracle Cloud!');
           },
-          error: (err) => {
-            console.error('Error al actualizar en el microservicio:', err);
-            alert('No se pudo actualizar el perfil. Revisa la consola.');
+          error: (err: any) => {
+            // Tipado explícito para evitar errores de compilación
+            console.error('Error en el microservicio:', err);
+            alert('Error al actualizar: ' + (err.error?.message || 'Servidor no disponible'));
           },
         });
     }
