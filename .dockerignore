@@ -1,0 +1,18 @@
+# Dependencias locales (se instalarán dentro de Docker)
+node_modules/
+
+# Archivos compilados locales
+dist/
+out-tsc/
+
+# Carpetas de Git y Docker
+.git/
+.dockerignore
+Dockerfile
+
+# Caché de Angular
+.angular/
+
+# Configuraciones de tu editor
+.vscode/
+.idea/

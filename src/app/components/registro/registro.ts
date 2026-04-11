@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { UsuarioService } from '../../services/usuario';
+
 
 @Component({
   selector: 'app-registro',
@@ -16,6 +18,7 @@ export class RegistroComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private usuarioService: UsuarioService,
   ) {
     this.registroForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
@@ -35,9 +38,27 @@ export class RegistroComponent {
 
   onRegistro() {
     if (this.registroForm.valid) {
-      console.log('Datos enviados:', this.registroForm.value);
-      alert('¡Usuario registrado con éxito!');
-      this.router.navigate(['/login']);
+      // 1. Construimos el objeto EXACTO que pide tu clase Usuario.java
+      const usuarioParaJava = {
+        nombreUsuario: this.registroForm.value.nombre, // 'nombre' -> 'nombreUsuario'
+        email: this.registroForm.value.email,
+        password: this.registroForm.value.password,
+        rol: 'CLIENTE', // 2. Agregamos el rol AQUÍ para cumplir con el @NotNull de la Entity
+      };
+
+      console.log('Enviando datos validados:', usuarioParaJava);
+
+      this.usuarioService.registrar(usuarioParaJava).subscribe({
+        next: (res: any) => {
+          console.log('✅ ¡Guardado en Oracle Cloud!', res);
+          alert('Usuario registrado con éxito');
+          this.router.navigate(['/login']);
+        },
+        error: (err: any) => {
+          console.error('❌ Error 400 - Validación fallida:', err);
+          alert('Revisa que el nombre tenga al menos 4 caracteres.');
+        },
+      });
     }
   }
 }
