@@ -1,6 +1,22 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Producto } from '../models/producto'; // Asegúrate de que esta ruta apunte a tu modelo
 
 @Injectable({
   providedIn: 'root',
 })
-export class Productos {}
+export class Productos {
+  // Mantengo el nombre de tu clase
+
+  // Reemplaza esto con la URL exacta de tu ms-producto
+  private apiUrl = 'http://localhost:8081/api/productos';
+
+  // Inyectamos el HttpClient para poder hacer peticiones a Spring Boot
+  constructor(private http: HttpClient) {}
+
+  // Función que va a Oracle y trae la lista real
+  listarProductos(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(this.apiUrl);
+  }
+}
