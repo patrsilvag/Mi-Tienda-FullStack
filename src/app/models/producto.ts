@@ -1,3 +1,4 @@
+// Tu interfaz actual
 export interface Producto {
   id?: number;
   nombre: string;
@@ -5,3 +6,5 @@ export interface Producto {
   precio: number;
   stock: number;
 }
+
+

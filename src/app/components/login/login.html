@@ -4,7 +4,14 @@
       <div class="card shadow border-0">
         <div class="card-body p-5">
           <h2 class="text-center mb-4">Iniciar Sesión</h2>
-          
+          @if (mensajeError) {
+            <div class="alert alert-danger d-flex align-items-center p-2 mb-3 shadow-sm" role="alert">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              <div class="small fw-bold">
+                {{ mensajeError }}
+              </div>
+            </div>
+          }
           <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
             <div class="mb-3">
             <label class="form-label">Correo Electrónico</label>

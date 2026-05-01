@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { UsuarioService } from '../../services/usuario';
+import { CommonModule } from '@angular/common'; // <-- AGREGA ESTA LÍNEA
 
 interface UsuarioSesion {
   id: number;
@@ -15,7 +16,7 @@ interface UsuarioSesion {
   selector: 'app-perfil',
   standalone: true,
   // Mantén RouterModule para los enlaces de navegación si los usas
-  imports: [ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './perfil.html',
   styleUrl: './perfil.scss',
 })

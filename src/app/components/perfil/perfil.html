@@ -10,7 +10,16 @@
           </div>
         </div>
         <h3 class="fw-bold mb-0">{{ usuario.nombreUsuario }}</h3>
-        <p class="mb-0 opacity-75">{{ usuario.rol }}</p>
+        <!-- Etiquetas visuales de Bootstrap según el rol -->
+        @if (usuario.rol === 'ADMIN') {
+          <span class="badge bg-danger mt-2 px-3 py-2 border border-light">
+            <i class="bi bi-shield-lock-fill me-1"></i> Administrador
+          </span>
+        } @else {
+          <span class="badge bg-info text-dark mt-2 px-3 py-2 border border-light">
+            <i class="bi bi-person-badge me-1"></i> Cliente
+          </span>
+        }
       </div>
 
       <div class="card-body p-4 p-md-5">
@@ -39,7 +48,24 @@
           @if (editando) {
             <div class="mb-4">
               <label class="text-muted small fw-bold text-uppercase">Nueva Contraseña</label>
-              <input type="password" formControlName="password" class="form-control" placeholder="Mínimo 8 caracteres">
+              <input type="password" formControlName="password" class="form-control" 
+                     [ngClass]="{'is-invalid': perfilForm.get('password')?.invalid && perfilForm.get('password')?.touched}"
+                     placeholder="Mínimo 8 caracteres">
+              
+              <!-- Mensajes de validación -->
+              @if (perfilForm.get('password')?.invalid && perfilForm.get('password')?.touched) {
+                <div class="text-danger small mt-1">
+                  @if (perfilForm.get('password')?.hasError('required')) {
+                    <span>La contraseña es obligatoria.</span><br>
+                  }
+                  @if (perfilForm.get('password')?.hasError('minlength')) {
+                    <span>Debe tener al menos 8 caracteres.</span><br>
+                  }
+                  @if (perfilForm.get('password')?.hasError('pattern')) {
+                    <span>Debe incluir letras, números y un carácter especial (@$!%*#?&).</span>
+                  }
+                </div>
+              }
             </div>
           }
 
@@ -48,6 +74,12 @@
               <button type="button" (click)="toggleEdicion()" class="btn btn-outline-primary py-2 shadow-sm">
                 Editar Perfil
               </button>
+
+              <!-- NUEVO BOTÓN PARA IR A LA TIENDA -->
+                <button type="button" class="btn btn-success py-2 shadow-sm fw-bold" routerLink="/productos">
+                    Ir al Catálogo de Productos
+                </button>
+
               <button type="button" class="btn btn-danger py-2 shadow-sm" (click)="cerrarSesion()">
                 Cerrar Sesión
               </button>

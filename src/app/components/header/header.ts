@@ -18,6 +18,17 @@ export class HeaderComponent {
     // Retorna true si existe la clave en localStorage
   }
 
+  // Nueva función para detectar el rol
+  esAdmin(): boolean {
+    const usuarioGuardado = localStorage.getItem('usuarioLogueado');
+    if (usuarioGuardado) {
+      const usuario = JSON.parse(usuarioGuardado);
+      // Ajusta 'ADMIN' al texto exacto que devuelva tu base de datos (ej: 'ROLE_ADMIN')
+      return usuario.rol === 'ADMIN';
+    }
+    return false;
+  }
+
   // ESTA ES LA FUNCIÓN QUE FALTA
   cerrarSesion(): void {
     // 1. Eliminamos los datos de la sesión local
