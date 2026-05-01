@@ -51,11 +51,11 @@ export class RegistroComponent {
         rol: 'CLIENTE', // 2. Agregamos el rol AQUÍ para cumplir con el @NotNull de la Entity
       };
 
-      console.log('Enviando datos validados:', usuarioParaJava);
+      
 
       this.usuarioService.registrar(usuarioParaJava).subscribe({
         next: (res: any) => {
-          console.log('✅ ¡Guardado en Oracle Cloud!', res);
+          
           alert('Usuario registrado con éxito');
           this.router.navigate(['/login']);
         },

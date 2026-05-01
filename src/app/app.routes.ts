@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './components/login/login'; // Verifica que la ruta coincida con tu carpeta
+import { LoginComponent } from './components/login/login';
 import { RecuperarPasswordComponent } from './components/recuperar-password/recuperar-password';
 import { PerfilComponent } from './components/perfil/perfil';
 import { PagoExitoComponent } from './components/pago-exito/pago-exito';

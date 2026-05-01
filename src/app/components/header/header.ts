@@ -1,5 +1,5 @@
-import 'bootstrap';
-import { Component } from '@angular/core';
+
+import { Component, OnInit } from '@angular/core'; 
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -9,33 +9,32 @@ import { Router, RouterModule } from '@angular/router';
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+  // 2. Implementa la interfaz
+
   constructor(private router: Router) {}
 
-  // Función que verifica si el usuario está logueado
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('usuarioLogueado');
-    // Retorna true si existe la clave en localStorage
+  // 3. Esta función se ejecuta apenas el Header aparece en pantalla
+  ngOnInit(): void {
+    
+    this.isLoggedIn();
   }
 
-  // Nueva función para detectar el rol
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('usuarioLogueado');
+  }
+
   esAdmin(): boolean {
     const usuarioGuardado = localStorage.getItem('usuarioLogueado');
     if (usuarioGuardado) {
       const usuario = JSON.parse(usuarioGuardado);
-      // Ajusta 'ADMIN' al texto exacto que devuelva tu base de datos (ej: 'ROLE_ADMIN')
-      return usuario.rol === 'ADMIN';
+      return usuario.rol === 'ADMIN'; 
     }
     return false;
   }
 
-  // ESTA ES LA FUNCIÓN QUE FALTA
   cerrarSesion(): void {
-    // 1. Eliminamos los datos de la sesión local
     localStorage.removeItem('usuarioLogueado');
-
-    // 2. Redirigimos al login para cumplir con el flujo de seguridad
-    console.log('Logout exitoso: Sesión finalizada');
     this.router.navigate(['/login']);
   }
 }

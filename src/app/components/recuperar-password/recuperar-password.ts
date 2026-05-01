@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-// Borramos CommonModule
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -22,7 +21,7 @@ export class RecuperarPasswordComponent {
 
   onRecuperar() {
     if (this.recuperarForm.valid) {
-      console.log('Enviando link de recuperación a:', this.recuperarForm.value.email);
+      
       this.mensajeEnviado = true;
     }
   }

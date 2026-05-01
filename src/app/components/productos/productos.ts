@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { PedidosService } from '../../services/pedidos';
-import { Productos } from '../../services/productos'; // <-- Importamos el servicio que acabas de armar
+import { Productos } from '../../services/productos'; 
 import { Producto } from '../../models/producto';
 
 @Component({
@@ -26,7 +26,7 @@ export class ProductosComponent implements OnInit {
     this.productosService.listarProductos().subscribe({
       next: (datosBD) => {
         this.productos = datosBD;
-        console.log('✅ Datos 100% reales de Oracle:', this.productos);
+        
       },
       error: (err) => {
         console.error('❌ Error al traer productos:', err);
@@ -39,7 +39,7 @@ export class ProductosComponent implements OnInit {
 
     this.pedidosService.registrarCompra(producto.id, 1).subscribe({
       next: (respuesta) => {
-        console.log('Compra registrada en ms-pedidos', respuesta);
+        
         this.router.navigate(['/pago-exito']);
       },
       error: (err) => {

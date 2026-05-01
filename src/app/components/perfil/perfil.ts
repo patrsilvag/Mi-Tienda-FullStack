@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-// CommonModule es opcional si solo usas @if / @else
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { UsuarioService } from '../../services/usuario';
-import { CommonModule } from '@angular/common'; // <-- AGREGA ESTA LÍNEA
+import { CommonModule } from '@angular/common'; // 
 
 interface UsuarioSesion {
   id: number;
@@ -60,7 +59,7 @@ export class PerfilComponent implements OnInit {
           nombreUsuario: this.usuario.nombreUsuario,
           email: this.usuario.email,
         });
-        console.log('✅ Sesión recuperada para:', this.usuario.nombreUsuario);
+        
       } catch (error) {
         console.error('❌ Error al parsear sesión:', error);
         this.cerrarSesion();

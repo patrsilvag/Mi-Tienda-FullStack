@@ -1,4 +1,4 @@
-// Tu interfaz actual
+
 export interface Producto {
   id?: number;
   nombre: string;

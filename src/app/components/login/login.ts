@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-// 1. Importamos el servicio
 import { AuthService } from '../../services/auth';
 
 @Component({
@@ -42,14 +41,10 @@ export class LoginComponent {
       // Llamamos al backend real
       this.authService.login(this.loginForm.value).subscribe({
         next: (respuesta) => {
-          console.log('Login exitoso desde Spring Boot:', respuesta);
-
-          // Guardar el token si tu backend usa JWT
-          // localStorage.setItem('token', respuesta.token);
-
-          // ==========================================
+          
+               
           // Guardamos la sesión en el navegador
-          // ==========================================
+       
           localStorage.setItem('usuarioLogueado', JSON.stringify(respuesta));
 
           alert('¡Bienvenido al sistema!');

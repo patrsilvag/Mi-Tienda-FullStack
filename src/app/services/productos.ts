@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Producto } from '../models/producto'; // Asegúrate de que esta ruta apunte a tu modelo
+import { Producto } from '../models/producto'; 
 
 @Injectable({
   providedIn: 'root',
