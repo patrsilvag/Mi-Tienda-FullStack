@@ -27,24 +27,53 @@
         
         <form [formGroup]="perfilForm" (ngSubmit)="onActualizar()">
           
+          <!-- CAMPO NOMBRE DE USUARIO -->
           <div class="mb-3">
             <label class="text-muted small fw-bold text-uppercase">Nombre de Usuario</label>
             @if (!editando) {
               <p class="fs-5 mb-0">{{ usuario.nombreUsuario }}</p>
             } @else {
-              <input type="text" formControlName="nombreUsuario" class="form-control">
+              <input type="text" formControlName="nombreUsuario" class="form-control"
+                     [ngClass]="{'is-invalid': perfilForm.get('nombreUsuario')?.invalid && perfilForm.get('nombreUsuario')?.touched}">
+              
+              <!-- Mensajes de error Nombre -->
+              @if (perfilForm.get('nombreUsuario')?.invalid && perfilForm.get('nombreUsuario')?.touched) {
+                <div class="invalid-feedback">
+                  @if (perfilForm.get('nombreUsuario')?.hasError('required')) {
+                    <span>El nombre de usuario es obligatorio.</span>
+                  }
+                  @if (perfilForm.get('nombreUsuario')?.hasError('minlength')) {
+                    <span>Debe tener al menos 4 caracteres.</span>
+                  }
+                </div>
+              }
             }
           </div>
 
+          <!-- CAMPO CORREO ELECTRÓNICO -->
           <div class="mb-3">
             <label class="text-muted small fw-bold text-uppercase">Correo Electrónico</label>
             @if (!editando) {
               <p class="fs-5 mb-0">{{ usuario.email }}</p>
             } @else {
-              <input type="email" formControlName="email" class="form-control">
+              <input type="email" formControlName="email" class="form-control"
+                     [ngClass]="{'is-invalid': perfilForm.get('email')?.invalid && perfilForm.get('email')?.touched}">
+              
+              <!-- Mensajes de error Email -->
+              @if (perfilForm.get('email')?.invalid && perfilForm.get('email')?.touched) {
+                <div class="invalid-feedback">
+                  @if (perfilForm.get('email')?.hasError('required')) {
+                    <span>El correo es obligatorio.</span>
+                  }
+                  @if (perfilForm.get('email')?.hasError('email')) {
+                    <span>Ingresa un formato de correo válido.</span>
+                  }
+                </div>
+              }
             }
           </div>
 
+          <!-- CAMPO CONTRASEÑA -->
           @if (editando) {
             <div class="mb-4">
               <label class="text-muted small fw-bold text-uppercase">Nueva Contraseña</label>
@@ -54,7 +83,7 @@
               
               <!-- Mensajes de validación -->
               @if (perfilForm.get('password')?.invalid && perfilForm.get('password')?.touched) {
-                <div class="text-danger small mt-1">
+                <div class="invalid-feedback d-block">
                   @if (perfilForm.get('password')?.hasError('required')) {
                     <span>La contraseña es obligatoria.</span><br>
                   }
@@ -76,9 +105,9 @@
               </button>
 
               <!-- NUEVO BOTÓN PARA IR A LA TIENDA -->
-                <button type="button" class="btn btn-success py-2 shadow-sm fw-bold" routerLink="/productos">
-                    Ir al Catálogo de Productos
-                </button>
+              <button type="button" class="btn btn-success py-2 shadow-sm fw-bold" routerLink="/productos">
+                Ir al Catálogo de Productos
+              </button>
 
               <button type="button" class="btn btn-danger py-2 shadow-sm" (click)="cerrarSesion()">
                 Cerrar Sesión

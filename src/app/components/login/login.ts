@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule],
+  imports: [CommonModule,ReactiveFormsModule, RouterModule],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -14,7 +15,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   mensajeError: string = ''; // Para mostrar errores del backend
 
-  showPassword = false; 
+  showPassword = false;
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
@@ -41,10 +42,8 @@ export class LoginComponent {
       // Llamamos al backend real
       this.authService.login(this.loginForm.value).subscribe({
         next: (respuesta) => {
-          
-               
           // Guardamos la sesión en el navegador
-       
+
           localStorage.setItem('usuarioLogueado', JSON.stringify(respuesta));
 
           alert('¡Bienvenido al sistema!');

@@ -1,16 +1,37 @@
-import { TestBed } from '@angular/core/testing';
+import { describe, it, expect, vi } from 'vitest';
+import { AuthService } from './auth';
+import { of } from 'rxjs';
 
-import { Auth } from './auth';
+describe('AuthService (sin TestBed)', () => {
 
-describe('Auth', () => {
-  let service: Auth;
+  it('debería crearse el servicio', () => {
+    const httpMock = {
+      post: vi.fn()
+    };
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(Auth);
-  });
+    const service = new AuthService(httpMock as any);
 
-  it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('debería ejecutar login()', () => {
+    const respuestaMock = { token: '123' };
+
+    const httpMock = {
+      post: vi.fn(() => of(respuestaMock))
+    };
+
+    const service = new AuthService(httpMock as any);
+
+    service.login({ email: 'test', password: '123' })
+      .subscribe(res => {
+        expect(res).toEqual(respuestaMock);
+      });
+
+    expect(httpMock.post).toHaveBeenCalledWith(
+      'http://localhost:8082/api/usuarios/login',
+      { email: 'test', password: '123' }
+    );
+  });
+
 });

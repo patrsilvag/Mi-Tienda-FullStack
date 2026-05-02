@@ -4,6 +4,7 @@
       <div class="card shadow border-0">
         <div class="card-body p-5">
           <h2 class="text-center mb-4">Iniciar Sesión</h2>
+          
           @if (mensajeError) {
             <div class="alert alert-danger d-flex align-items-center p-2 mb-3 shadow-sm" role="alert">
               <i class="bi bi-exclamation-triangle-fill me-2"></i>
@@ -12,45 +13,74 @@
               </div>
             </div>
           }
+          
           <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-            <div class="mb-3">
-            <label class="form-label">Correo Electrónico</label>
-            <input type="email" class="form-control" formControlName="email" 
-                   placeholder="nombre@ejemplo.com">
-          </div>
-
-         <div class="mb-3">
-        <label class="form-label">Contraseña</label>
-        <div class="input-group">
-            <input [type]="showPassword ? 'text' : 'password'" 
-                class="form-control" 
-                formControlName="password"
-                placeholder="Ingresa tu contraseña">
             
-            <button class="btn btn-outline-secondary" 
-                    type="button" 
-                    (click)="togglePassword()">
-            <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+            <!-- Campo Email -->
+            <div class="mb-3">
+              <label class="form-label">Correo Electrónico</label>
+              <input type="email" class="form-control" formControlName="email" 
+                     placeholder="nombre@ejemplo.com"
+                     [ngClass]="{'is-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}">
+              
+              <!-- Mensajes de error del Email -->
+              @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+                <div class="invalid-feedback">
+                  @if (loginForm.get('email')?.hasError('required')) {
+                    <span>El correo es obligatorio.</span>
+                  }
+                  @if (loginForm.get('email')?.hasError('email')) {
+                    <span>Ingresa un formato de correo válido.</span>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Campo Contraseña -->
+            <div class="mb-3">
+              <label class="form-label">Contraseña</label>
+              <div class="input-group">
+                <input [type]="showPassword ? 'text' : 'password'" 
+                       class="form-control" 
+                       formControlName="password"
+                       placeholder="Ingresa tu contraseña"
+                       [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}">
+                
+                <button class="btn btn-outline-secondary" 
+                        type="button" 
+                        (click)="togglePassword()"
+                        [style.borderColor]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched ? '#dc3545' : ''">
+                  <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                </button>
+              </div>
+              
+              <!-- Mensaje de error de Contraseña -->
+              @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+                <div class="text-danger small mt-1">
+                  La contraseña es obligatoria.
+                </div>
+              }
+            </div>
+
+            <div class="text-end mb-4">
+              <a routerLink="/recuperar-password" class="small fw-bold text-decoration-none">
+                ¿Olvidaste tu contraseña?
+              </a>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2 shadow-sm" 
+                    [disabled]="loginForm.invalid">
+              Entrar al Sistema
             </button>
-        </div>
-        </div>
+          </form>
 
-          <div class="text-end mb-4">
-            <a routerLink="/recuperar-password" class="small fw-bold text-decoration-none">
-              ¿Olvidaste tu contraseña?
-            </a>
+          <div class="mt-4 text-center">
+            <p class="small text-muted">¿No tienes cuenta? 
+              <a routerLink="/registro" class="text-decoration-none fw-bold">Regístrate</a>
+            </p>
           </div>
-
-          <button type="submit" class="btn btn-primary w-100 py-2 shadow-sm" 
-                  [disabled]="loginForm.invalid">
-            Entrar al Sistema
-          </button>
-        </form>
-
-        <div class="mt-4 text-center">
-          <p class="small text-muted">¿No tienes cuenta? 
-            <a routerLink="/registro" class="text-decoration-none fw-bold">Regístrate</a>
-          </p>
         </div>
+      </div>
+    </div>
   </div>
 </div>
