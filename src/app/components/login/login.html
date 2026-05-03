@@ -6,22 +6,28 @@
           <h2 class="text-center mb-4">Iniciar Sesión</h2>
           
           @if (mensajeError) {
-            <div class="alert alert-danger d-flex align-items-center p-2 mb-3 shadow-sm" role="alert">
+            <!-- Cambiamos div por output para cumplir con la regla de accesibilidad dinámica -->
+            <output class="alert alert-danger d-flex align-items-center p-2 mb-3 shadow-sm w-100">
               <i class="bi bi-exclamation-triangle-fill me-2"></i>
               <div class="small fw-bold">
                 {{ mensajeError }}
               </div>
-            </div>
+            </output>
           }
           
           <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
             
             <!-- Campo Email -->
             <div class="mb-3">
-              <label class="form-label">Correo Electrónico</label>
-              <input type="email" class="form-control" formControlName="email" 
-                     placeholder="nombre@ejemplo.com"
-                     [ngClass]="{'is-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}">
+              <!-- ✅ Agregamos 'for' vinculado al id del input -->
+              <label for="emailInput" class="form-label">Correo Electrónico</label>
+              <input 
+                id="emailInput" 
+                type="email" 
+                class="form-control" 
+                formControlName="email" 
+                placeholder="nombre@ejemplo.com"
+                [ngClass]="{'is-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}">
               
               <!-- Mensajes de error del Email -->
               @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
@@ -38,18 +44,23 @@
 
             <!-- Campo Contraseña -->
             <div class="mb-3">
-              <label class="form-label">Contraseña</label>
+              <!-- ✅ Agregamos 'for' vinculado al id del input -->
+              <label for="passwordInput" class="form-label">Contraseña</label>
               <div class="input-group">
-                <input [type]="showPassword ? 'text' : 'password'" 
-                       class="form-control" 
-                       formControlName="password"
-                       placeholder="Ingresa tu contraseña"
-                       [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}">
+                <input 
+                  id="passwordInput"
+                  [type]="showPassword ? 'text' : 'password'" 
+                  class="form-control" 
+                  formControlName="password"
+                  placeholder="Ingresa tu contraseña"
+                  [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}">
                 
-                <button class="btn btn-outline-secondary" 
-                        type="button" 
-                        (click)="togglePassword()"
-                        [style.borderColor]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched ? '#dc3545' : ''">
+                <button 
+                  class="btn btn-outline-secondary" 
+                  type="button" 
+                  (click)="togglePassword()"
+                  aria-label="Mostrar u ocultar contraseña"
+                  [style.borderColor]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched ? '#dc3545' : ''">
                   <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
                 </button>
               </div>

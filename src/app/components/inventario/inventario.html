@@ -1,0 +1,42 @@
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+      <h3 class="mb-0"><i class="bi bi-box-seam me-2"></i>Gestión de Inventario</h3>
+      <span class="badge bg-info text-dark">Perfil: ADMINISTRADOR</span>
+    </div>
+    <div class="card-body">
+      
+      <div *ngIf="cargando" class="text-center my-4">
+        <!-- ✅ Corrección para SonarQube y Accesibilidad -->
+        <output class="spinner-border text-primary"></output>
+        <p class="mt-2">Sincronizando stock...</p>
+      </div>
+
+      <div class="table-responsive" *ngIf="!cargando">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Nombre del Producto</th>
+              <th class="text-center">Stock</th>
+              <th class="text-center">Precio</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of listaProductos" [ngClass]="definirClaseStock(item.stock)">
+              <td>#{{ item.id }}</td>
+              <td><strong>{{ item.nombre }}</strong></td>
+              <td class="text-center font-monospace">{{ item.stock }}</td>
+              <td class="text-center">{{ item.precio | currency:'CLP':'symbol-neutral' }}</td>
+              <td>
+                <i *ngIf="item.stock <= 5" class="bi bi-exclamation-triangle-fill text-danger me-1"></i>
+                {{ item.stock > 5 ? 'Normal' : 'Reponer Urgentemente' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

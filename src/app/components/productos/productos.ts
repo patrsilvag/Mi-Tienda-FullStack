@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PedidosService } from '../../services/pedidos';
-import { Productos } from '../../services/productos'; 
 import { Producto } from '../../models/producto';
+import { PedidosService } from '../../services/pedidos';
+import { Productos } from '../../services/productos';
 
 @Component({
   selector: 'app-productos',
@@ -16,9 +16,9 @@ export class ProductosComponent implements OnInit {
   productos: Producto[] = [];
 
   constructor(
-    private pedidosService: PedidosService,
-    private productosService: Productos, // <-- Inyectamos tu servicio
-    private router: Router,
+    private readonly pedidosService: PedidosService,
+    private readonly productosService: Productos, // <-- Inyectamos tu servicio
+    private readonly router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -26,7 +26,6 @@ export class ProductosComponent implements OnInit {
     this.productosService.listarProductos().subscribe({
       next: (datosBD) => {
         this.productos = datosBD;
-        
       },
       error: (err) => {
         console.error('❌ Error al traer productos:', err);
@@ -39,7 +38,6 @@ export class ProductosComponent implements OnInit {
 
     this.pedidosService.registrarCompra(producto.id, 1).subscribe({
       next: (respuesta) => {
-        
         this.router.navigate(['/pago-exito']);
       },
       error: (err) => {

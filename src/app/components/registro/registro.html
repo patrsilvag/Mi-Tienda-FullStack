@@ -6,50 +6,58 @@
         
         <form [formGroup]="registroForm" (ngSubmit)="onRegistro()">
           
+          <!-- Campo Nombre -->
           <div class="mb-3">
-            <label class="form-label">Nombre Completo</label>
-            <input type="text" formControlName="nombre" class="form-control" 
+            <!-- ✅ Vinculamos label con el id 'nombreRegistro' -->
+            <label for="nombreRegistro" class="form-label">Nombre Completo</label>
+            <input id="nombreRegistro" type="text" formControlName="nombre" class="form-control" 
                    [ngClass]="{'is-invalid': registroForm.get('nombre')?.invalid && registroForm.get('nombre')?.touched}">
             <div class="invalid-feedback">El nombre debe tener al menos 3 caracteres.</div>
           </div>
 
+          <!-- Campo Email -->
           <div class="mb-3">
-            <label class="form-label">Correo Electrónico</label>
-            <input type="email" formControlName="email" class="form-control"
+            <!-- ✅ Vinculamos label con el id 'emailRegistro' -->
+            <label for="emailRegistro" class="form-label">Correo Electrónico</label>
+            <input id="emailRegistro" type="email" formControlName="email" class="form-control"
                    [ngClass]="{'is-invalid': registroForm.get('email')?.invalid && registroForm.get('email')?.touched}">
             <div class="invalid-feedback">Ingresa un correo electrónico válido.</div>
           </div>
 
-        <div class="mb-3">
-  <label class="form-label">Contraseña</label>
-  
-  <div class="input-group">
-    <input [type]="showPassword ? 'text' : 'password'" 
-           formControlName="password" 
-           class="form-control"
-           [ngClass]="{'is-invalid': registroForm.get('password')?.invalid && registroForm.get('password')?.touched}">
-    
-    <button class="btn btn-outline-secondary" 
-            type="button" 
-            (click)="togglePassword()"
-            [style.borderColor]="registroForm.get('password')?.invalid && registroForm.get('password')?.touched ? '#dc3545' : ''">
-      <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
-    </button>
-  </div>
+          <!-- Campo Contraseña -->
+          <div class="mb-3">
+            <!-- ✅ Vinculamos label con el id 'passwordRegistro' -->
+            <label for="passwordRegistro" class="form-label">Contraseña</label>
+            
+            <div class="input-group">
+              <input id="passwordRegistro"
+                     [type]="showPassword ? 'text' : 'password'" 
+                     formControlName="password" 
+                     class="form-control"
+                     [ngClass]="{'is-invalid': registroForm.get('password')?.invalid && registroForm.get('password')?.touched}">
+              
+              <button class="btn btn-outline-secondary" 
+                      type="button" 
+                      (click)="togglePassword()"
+                      aria-label="Mostrar u ocultar contraseña"
+                      [style.borderColor]="registroForm.get('password')?.invalid && registroForm.get('password')?.touched ? '#dc3545' : ''">
+                <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+              </button>
+            </div>
 
-  <div class="mt-2 small">
-    <ul class="list-unstyled">
-      <li [class.text-success]="!registroForm.get('password')?.errors?.['minlength'] && registroForm.get('password')?.value" 
-          [class.text-danger]="registroForm.get('password')?.errors?.['minlength'] && registroForm.get('password')?.touched">
-        ● Mínimo 8 caracteres
-      </li>
-      <li [class.text-success]="!registroForm.get('password')?.hasError('pattern') && registroForm.get('password')?.value"
-          [class.text-danger]="registroForm.get('password')?.hasError('pattern') && registroForm.get('password')?.touched">
-        ● Debe incluir Mayúscula, Número y Símbolo ($@!%*?&)
-      </li>
-    </ul>
-  </div>
-</div>
+            <div class="mt-2 small">
+              <ul class="list-unstyled">
+                <li [class.text-success]="!registroForm.get('password')?.errors?.['minlength'] && registroForm.get('password')?.value" 
+                    [class.text-danger]="registroForm.get('password')?.errors?.['minlength'] && registroForm.get('password')?.touched">
+                  ● Mínimo 8 caracteres
+                </li>
+                <li [class.text-success]="!registroForm.get('password')?.hasError('pattern') && registroForm.get('password')?.value"
+                    [class.text-danger]="registroForm.get('password')?.hasError('pattern') && registroForm.get('password')?.touched">
+                  ● Debe incluir Mayúscula, Número y Símbolo ($@!%*?&)
+                </li>
+              </ul>
+            </div>
+          </div>
 
           <button type="submit" class="btn btn-success w-100 py-2 mt-3" [disabled]="registroForm.invalid">
             Registrarme

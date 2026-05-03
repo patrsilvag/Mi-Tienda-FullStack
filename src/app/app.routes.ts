@@ -4,6 +4,7 @@ import { RecuperarPasswordComponent } from './components/recuperar-password/recu
 import { PerfilComponent } from './components/perfil/perfil';
 import { PagoExitoComponent } from './components/pago-exito/pago-exito';
 import { ProductosComponent } from './components/productos/productos';
+import { InventarioComponent } from './components/inventario/inventario';
 
 
 export const routes: Routes = [
@@ -28,6 +29,8 @@ export const routes: Routes = [
   { path: 'productos', component: ProductosComponent },
 
   { path: 'pago-exito', component: PagoExitoComponent },
+
+  { path: 'inventario', component: InventarioComponent },
 
   // 4. Comodín: si escriben cualquier cosa que no exista arriba, al login. SIEMPRE AL FINAL.
   { path: '**', redirectTo: 'login' },

@@ -1,8 +1,8 @@
+import { CommonModule } from '@angular/common'; //
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { UsuarioService } from '../../services/usuario';
-import { CommonModule } from '@angular/common'; // 
 
 interface UsuarioSesion {
   id: number;
@@ -30,9 +30,9 @@ export class PerfilComponent implements OnInit {
   };
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private usuarioService: UsuarioService,
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly usuarioService: UsuarioService,
   ) {
     this.perfilForm = this.fb.group({
       nombreUsuario: ['', [Validators.required, Validators.minLength(4)]],
@@ -59,7 +59,6 @@ export class PerfilComponent implements OnInit {
           nombreUsuario: this.usuario.nombreUsuario,
           email: this.usuario.email,
         });
-        
       } catch (error) {
         console.error('❌ Error al parsear sesión:', error);
         this.cerrarSesion();

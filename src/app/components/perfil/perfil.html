@@ -10,7 +10,6 @@
           </div>
         </div>
         <h3 class="fw-bold mb-0">{{ usuario.nombreUsuario }}</h3>
-        <!-- Etiquetas visuales de Bootstrap según el rol -->
         @if (usuario.rol === 'ADMIN') {
           <span class="badge bg-danger mt-2 px-3 py-2 border border-light">
             <i class="bi bi-shield-lock-fill me-1"></i> Administrador
@@ -29,14 +28,15 @@
           
           <!-- CAMPO NOMBRE DE USUARIO -->
           <div class="mb-3">
-            <label class="text-muted small fw-bold text-uppercase">Nombre de Usuario</label>
+            <!-- ✅ Vinculamos label con for -->
+            <label for="perfilUsername" class="text-muted small fw-bold text-uppercase">Nombre de Usuario</label>
             @if (!editando) {
               <p class="fs-5 mb-0">{{ usuario.nombreUsuario }}</p>
             } @else {
-              <input type="text" formControlName="nombreUsuario" class="form-control"
+              <!-- ✅ Agregamos id coincidente -->
+              <input id="perfilUsername" type="text" formControlName="nombreUsuario" class="form-control"
                      [ngClass]="{'is-invalid': perfilForm.get('nombreUsuario')?.invalid && perfilForm.get('nombreUsuario')?.touched}">
               
-              <!-- Mensajes de error Nombre -->
               @if (perfilForm.get('nombreUsuario')?.invalid && perfilForm.get('nombreUsuario')?.touched) {
                 <div class="invalid-feedback">
                   @if (perfilForm.get('nombreUsuario')?.hasError('required')) {
@@ -52,14 +52,15 @@
 
           <!-- CAMPO CORREO ELECTRÓNICO -->
           <div class="mb-3">
-            <label class="text-muted small fw-bold text-uppercase">Correo Electrónico</label>
+            <!-- ✅ Vinculamos label con for -->
+            <label for="perfilEmail" class="text-muted small fw-bold text-uppercase">Correo Electrónico</label>
             @if (!editando) {
               <p class="fs-5 mb-0">{{ usuario.email }}</p>
             } @else {
-              <input type="email" formControlName="email" class="form-control"
+              <!-- ✅ Agregamos id coincidente -->
+              <input id="perfilEmail" type="email" formControlName="email" class="form-control"
                      [ngClass]="{'is-invalid': perfilForm.get('email')?.invalid && perfilForm.get('email')?.touched}">
               
-              <!-- Mensajes de error Email -->
               @if (perfilForm.get('email')?.invalid && perfilForm.get('email')?.touched) {
                 <div class="invalid-feedback">
                   @if (perfilForm.get('email')?.hasError('required')) {
@@ -76,16 +77,17 @@
           <!-- CAMPO CONTRASEÑA -->
           @if (editando) {
             <div class="mb-4">
-              <label class="text-muted small fw-bold text-uppercase">Nueva Contraseña</label>
-              <input type="password" formControlName="password" class="form-control" 
+              <!-- ✅ Vinculamos label con for -->
+              <label for="perfilPassword" class="text-muted small fw-bold text-uppercase">Nueva Contraseña</label>
+              <!-- ✅ Agregamos id coincidente -->
+              <input id="perfilPassword" type="password" formControlName="password" class="form-control" 
                      [ngClass]="{'is-invalid': perfilForm.get('password')?.invalid && perfilForm.get('password')?.touched}"
                      placeholder="Mínimo 8 caracteres">
               
-              <!-- Mensajes de validación -->
               @if (perfilForm.get('password')?.invalid && perfilForm.get('password')?.touched) {
                 <div class="invalid-feedback d-block">
                   @if (perfilForm.get('password')?.hasError('required')) {
-                    <span>La contraseña es obligatoria.</span><br>
+                    <span>La contraseña es obligatorio.</span><br>
                   }
                   @if (perfilForm.get('password')?.hasError('minlength')) {
                     <span>Debe tener al menos 8 caracteres.</span><br>
@@ -104,7 +106,6 @@
                 Editar Perfil
               </button>
 
-              <!-- NUEVO BOTÓN PARA IR A LA TIENDA -->
               <button type="button" class="btn btn-success py-2 shadow-sm fw-bold" routerLink="/productos">
                 Ir al Catálogo de Productos
               </button>

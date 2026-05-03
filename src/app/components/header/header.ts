@@ -11,12 +11,11 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   // 2. Implementa la interfaz
-
-  constructor(private router: Router) {}
+  
+  constructor(private readonly router: Router) {}
 
   // 3. Esta función se ejecuta apenas el Header aparece en pantalla
   ngOnInit(): void {
-    
     this.isLoggedIn();
   }
 
@@ -28,7 +27,7 @@ export class HeaderComponent implements OnInit {
     const usuarioGuardado = localStorage.getItem('usuarioLogueado');
     if (usuarioGuardado) {
       const usuario = JSON.parse(usuarioGuardado);
-      return usuario.rol === 'ADMIN'; 
+      return usuario.rol === 'ADMIN';
     }
     return false;
   }

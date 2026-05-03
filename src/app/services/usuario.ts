@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,9 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class UsuarioService {
   // 1. Debes definir la variable aquí para poder usarla con "this"
-  private apiUrl = 'http://localhost:8082/api/usuarios';
+  private readonly apiUrl = 'http://localhost:8082/api/usuarios';
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   registrar(usuario: any): Observable<any> {
     // Usamos la variable para mantener el código limpio

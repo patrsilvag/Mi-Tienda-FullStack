@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,9 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   // Ajustamos al puerto de tu backend
-  private apiUrl = 'http://localhost:8082/api/usuarios';
+  private readonly apiUrl = 'http://localhost:8082/api/usuarios';
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   login(credenciales: { email: string; password: string }): Observable<any> {
     // Esto enviará el POST a http://localhost:8082/api/auth/login

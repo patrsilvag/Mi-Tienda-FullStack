@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -13,7 +13,7 @@ export class RecuperarPasswordComponent {
   recuperarForm: FormGroup;
   mensajeEnviado: boolean = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private readonly fb: FormBuilder) {
     this.recuperarForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
     });
@@ -21,7 +21,6 @@ export class RecuperarPasswordComponent {
 
   onRecuperar() {
     if (this.recuperarForm.valid) {
-      
       this.mensajeEnviado = true;
     }
   }

@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { UsuarioService } from '../../services/usuario';
-
 
 @Component({
   selector: 'app-registro',
@@ -21,9 +20,9 @@ export class RegistroComponent {
   }
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private usuarioService: UsuarioService,
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly usuarioService: UsuarioService,
   ) {
     this.registroForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
@@ -33,9 +32,10 @@ export class RegistroComponent {
         [
           Validators.required,
           Validators.minLength(8), // Regla 1: Mínimo 8 caracteres
-          Validators.pattern(/(?=.*[A-Z])/), // Regla 2: Al menos una Mayúscula
-          Validators.pattern(/(?=.*[0-9])/), // Regla 3: Al menos un Número
-          Validators.pattern(/(?=.*[$@$!%*?&])/), // Regla 4: Carácter especial
+          Validators.maxLength(50),
+          Validators.pattern(/[A-Z]/), // Regla 2: Solo busca si EXISTE una mayúscula
+          Validators.pattern(/\d/), // Regla 3: Solo busca si EXISTE un número
+          Validators.pattern(/[$@!%*?&]/), // Regla 4: Carácter especial
         ],
       ],
     });
@@ -51,11 +51,8 @@ export class RegistroComponent {
         rol: 'CLIENTE', // 2. Agregamos el rol AQUÍ para cumplir con el @NotNull de la Entity
       };
 
-      
-
       this.usuarioService.registrar(usuarioParaJava).subscribe({
         next: (res: any) => {
-          
           alert('Usuario registrado con éxito');
           this.router.navigate(['/login']);
         },
