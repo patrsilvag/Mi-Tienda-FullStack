@@ -1,57 +1,50 @@
 # FrontTiendaPedidos 🛒
 
-Este proyecto es la interfaz FrontEnd para el **Sistema de Gestión de Pedidos**, desarrollado como parte de la Actividad Sumativa de la Experiencia 2. La aplicación está construida con **Angular 19** y diseñada bajo lineamientos empresariales.
+Este proyecto es la interfaz FrontEnd para el **Sistema de Gestión de Pedidos**, desarrollado como parte de la Actividad Sumativa de la Experiencia 2. La aplicación está construida con **Angular 21** y diseñada bajo lineamientos empresariales de alta calidad y mantenibilidad.
 
 ## 🚀 Características Principales
 
-* **Arquitectura Responsiva**: Interfaz adaptada a 3 tamaños de pantalla (móvil, tablet y desktop) utilizando el sistema de **GRID de 12 columnas** de Bootstrap.
+* **Gestión de Inventario (Nuevo)**: Módulo avanzado para la visualización, filtrado y administración de stock de productos en tiempo real.
+* **Arquitectura Responsiva**: Interfaz adaptada a móvil, tablet y desktop utilizando el sistema de **GRID de 12 columnas** de Bootstrap.
 * **Gestión de Usuarios**: Incluye módulos de Inicio de Sesión, Registro, Recuperación de Contraseña y **Modificación de Perfil**.
-* **Seguridad**: Validaciones robustas en formularios, incluyendo reglas de complejidad para contraseñas (longitud mínima, caracteres especiales y números).
+* **Seguridad y Calidad**: Validaciones robustas en formularios y cumplimiento de métricas de código mediante **SonarQube** y **Vitest** (Meta de cobertura >90%).
 * **Estado Local**: Manejo de sesión mediante variables de Angular y `localStorage` para persistencia de datos.
 
 ## 🛠️ Tecnologías Utilizadas
 
-* **Framework**: Angular 19+ (Sintaxis moderna de Control Flow: `@if`, `@else`).
-* **Estilos**: Bootstrap 5 (Layout responsivo).
+* **Framework**: Angular 21 (Sintaxis moderna de Control Flow: `@if`, `@else`).
+* **Testing**: Vitest + AnalogJS para pruebas unitarias de alta velocidad y reportes de cobertura.
+* **Estilos**: Bootstrap 5 (Layout responsivo y componentes UI).
 * **Comunicación**: HttpClient para consumo de Microservicios REST.
-* **Contenedores**: Docker para despliegue local.
-
+* **Contenedores**: Docker para despliegue local consistente mediante contenedores.
 
 ## 🏗️ Arquitectura del Sistema
 
-### BackEnd: Patrón MVC (Model-View-Controller)
-El microservicio de usuarios sigue el patrón arquitectónico **MVC**, garantizando una separación de responsabilidades clara y facilitando el mantenimiento evolutivo del sistema:
-
-* **Model (Modelos/Entidades)**: La clase `Usuario.java` representa la estructura de datos persistida en **Oracle Cloud**, utilizando anotaciones JPA para el mapeo objeto-relacional.
-* **Controller (Controladores)**: `UsuarioController.java` gestiona las peticiones HTTP (REST), define los Endpoints como `/api/usuarios` y orquestra la comunicación entre el cliente y el servicio.
-* **Service (Servicios)**: `UsuarioService.java` contiene la lógica de negocio y las validaciones de integridad, actuando como intermediario entre el controlador y la base de datos.
-* **Repository (Repositorios)**: `UsuarioRepository.java` implementa la abstracción de datos mediante **Spring Data JPA**, permitiendo operaciones CRUD eficientes sobre la base de datos Oracle.
-
 ### FrontEnd: Smart & Dumb Components
-La aplicación Angular implementa una arquitectura basada en componentes para optimizar el flujo de datos y la reactividad:
+La aplicación implementa una arquitectura basada en componentes para optimizar el flujo de datos:
 
-* **Smart Components (Componentes Inteligentes)**: Como `PerfilComponent`, `RegistroComponent` y `LoginComponent`. Se encargan de la lógica de negocio, inyectan los servicios (`UsuarioService`, `AuthService`) y gestionan la comunicación asíncrona con el Backend.
-* **Dumb Components (Componentes de Presentación)**: Componentes como `HeaderComponent` y `FooterComponent`. Se enfocan exclusivamente en la interfaz gráfica (UI), recibiendo datos y notificando eventos, lo que asegura que sean altamente reutilizables y fáciles de testear.
+* **Smart Components (Inteligentes)**: Como `PerfilComponent`, `InventarioComponent` y `LoginComponent`. Gestionan la lógica de negocio, inyectan servicios y manejan la comunicación con el Backend.
+* **Dumb Components (Presentación)**: Como `HeaderComponent` y `FooterComponent`. Se enfocan exclusivamente en la interfaz gráfica, recibiendo datos y notificando eventos, facilitando su testeo unitario.
+
+### BackEnd: Patrón MVC
+El sistema se integra con un microservicio que sigue el patrón **MVC** (Model-View-Controller), con persistencia en **Oracle Cloud** mediante Spring Data JPA.
 
 ---
 
 ## 📂 Estructura de Directorios (Arquetipo)
-
-Siguiendo los lineamientos del arquetipo diseñado para el proyecto, la estructura de archivos se organiza de la siguiente manera:
-
 ```text
 src/app/
 ├── components/          # Smart & Dumb Components organizados por vista
 │   ├── footer/          # Presentación estática inferior
 │   ├── header/          # Navegación y branding superior
+│   ├── inventario/      # Gestión de stock y catálogo de productos (Nuevo)
 │   ├── login/           # Gestión de acceso al sistema
 │   ├── perfil/          # Visualización y edición de datos del usuario
-│   ├── recuperar-password/ # Flujo de recuperación de credenciales
 │   └── registro/        # Formulario de alta de nuevos usuarios
 ├── models/              # Interfaces y contratos de datos (usuario.ts, producto.ts)
-├── services/            # Lógica de comunicación con APIs REST (HttpClient)
+├── services/            # Lógica de comunicación con APIs REST
 │   ├── auth.ts          # Gestión de autenticación y sesiones
-│   ├── productos.ts     # Servicio para catálogo de productos
+│   ├── productos.ts     # Servicio para catálogo e inventario
 │   └── usuario.ts       # CRUD de usuarios sincronizado con Oracle Cloud
 ├── app.routes.ts        # Definición centralizada del enrutamiento (SPA)
 └── app.config.ts        # Configuración global e inyección de dependencias
