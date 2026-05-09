@@ -1,22 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Producto } from '../models/producto';
+import { Producto } from '@models/producto'; // Uso del alias configurado en tsconfig.json
+import { environment } from '../../environments/environment'; // Uso del environment centralizado
 
 @Injectable({
   providedIn: 'root',
 })
 export class Productos {
-  // Mantengo el nombre de tu clase
+  // La URL ahora se obtiene dinámicamente según el entorno (Local o Docker)
+  private readonly apiUrl = environment.apiProductos;
 
-  // Reemplaza esto con la URL exacta de tu ms-producto
-  private readonly apiUrl = 'http://localhost:8081/api/productos';
-
-  // Inyectamos el HttpClient para poder hacer peticiones a Spring Boot
   constructor(private readonly http: HttpClient) {}
 
-  // Función que va a Oracle y trae la lista real
+  // Consulta al catálogo en Oracle Cloud
   listarProductos(): Observable<Producto[]> {
     return this.http.get<Producto[]>(this.apiUrl);
+  }
+
+  // Lógica para que el ADMIN actualice stock desde la interfaz
+  actualizarProducto(id: number, producto: Producto): Observable<Producto> {
+    // Se mantiene el parámetro de rol para validación en el microservicio
+    return this.http.put<Producto>(`${this.apiUrl}/${id}?rol=ADMIN`, producto);
   }
 }

@@ -2,5 +2,5 @@ projectKey=Front-Tiendas-Pedidos
 serverUrl=http://localhost:9000
 serverVersion=26.4.0.121862
 dashboardUrl=http://localhost:9000/dashboard?id=Front-Tiendas-Pedidos
-ceTaskId=f245c3d6-4429-4a58-aed9-07b30b7abb00
-ceTaskUrl=http://localhost:9000/api/ce/task?id=f245c3d6-4429-4a58-aed9-07b30b7abb00
+ceTaskId=541062be-4be3-4fb2-b42e-b38f6563987e
+ceTaskUrl=http://localhost:9000/api/ce/task?id=541062be-4be3-4fb2-b42e-b38f6563987e

@@ -13,7 +13,7 @@ import { AuthService } from '../../services/auth';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  mensajeError: string = ''; // Para mostrar errores del backend
+  mensajeError: string = '';
 
   showPassword = false;
 
@@ -21,7 +21,6 @@ export class LoginComponent {
     this.showPassword = !this.showPassword;
   }
 
-  // 2. Inyectamos el AuthService en el constructor
   constructor(
     private readonly fb: FormBuilder,
     private readonly router: Router,
@@ -33,26 +32,33 @@ export class LoginComponent {
     });
   }
 
-  // 3. Actualizamos el método de login
   onLogin() {
     if (this.loginForm.valid) {
-      // Limpiamos mensajes anteriores
       this.mensajeError = '';
 
-      // Llamamos al backend real
       this.authService.login(this.loginForm.value).subscribe({
         next: (respuesta) => {
-          // Guardamos la sesión en el navegador
-
           localStorage.setItem('usuarioLogueado', JSON.stringify(respuesta));
 
-          alert('¡Bienvenido al sistema!');
-          this.router.navigate(['/perfil']);
+          // ✅ Añadimos una protección simple (|| '') para que el test no falle si no hay rol
+          const rolUsuario = (respuesta.rol || '').toUpperCase();
+
+          alert(`¡Bienvenido ${respuesta.nombre || 'al sistema'}!`);
+
+          if (rolUsuario === 'ADMIN') {
+            this.router.navigate(['/gestion-inventario']);
+          } else {
+            // ✅ Cambiamos a la ruta real que definiste en tu componente
+            this.router.navigate(['/productos']);
+          }
         },
         error: (err) => {
-          console.error('Error en el login:', err);
-          // Si el backend responde con error 401 (No autorizado) o similar
-          this.mensajeError = 'Credenciales incorrectas o el servidor no responde.';
+          console.error('Error detallado:', err);
+          if (err.status === 403) {
+            this.mensajeError = 'Acceso denegado: El servidor rechaza la conexión por seguridad.';
+          } else {
+            this.mensajeError = 'Correo o contraseña incorrectos.';
+          }
         },
       });
     }

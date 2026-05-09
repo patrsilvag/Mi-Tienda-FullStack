@@ -7,7 +7,6 @@
     <div class="card-body">
       
       <div *ngIf="cargando" class="text-center my-4">
-        <!-- ✅ Corrección para SonarQube y Accesibilidad -->
         <output class="spinner-border text-primary"></output>
         <p class="mt-2">Sincronizando stock...</p>
       </div>
@@ -18,21 +17,39 @@
             <tr>
               <th>ID</th>
               <th>Nombre del Producto</th>
-              <th class="text-center">Stock</th>
-              <th class="text-center">Precio</th>
+              <th class="text-center" style="width: 150px;">Stock</th> <th class="text-center">Precio</th>
               <th>Estado</th>
-            </tr>
+              <th class="text-center">Acciones</th> </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of listaProductos" [ngClass]="definirClaseStock(item.stock)">
               <td>#{{ item.id }}</td>
               <td><strong>{{ item.nombre }}</strong></td>
-              <td class="text-center font-monospace">{{ item.stock }}</td>
+              
+              <td class="text-center">
+                <input 
+                  type="number" 
+                  class="form-control form-control-sm text-center font-monospace shadow-sm" 
+                  [(ngModel)]="item.stock"
+                  min="0">
+              </td>
+
               <td class="text-center">{{ item.precio | currency:'CLP':'symbol-neutral' }}</td>
+              
               <td>
                 <i *ngIf="item.stock <= 5" class="bi bi-exclamation-triangle-fill text-danger me-1"></i>
                 {{ item.stock > 5 ? 'Normal' : 'Reponer Urgentemente' }}
               </td>
+
+              <td class="text-center">
+                <button 
+                  class="btn btn-outline-success btn-sm d-flex align-items-center justify-content-center mx-auto" 
+                  (click)="actualizarStock(item)"
+                  title="Guardar cambios">
+                  <i class="bi bi-check-circle-fill me-1"></i> Guardar
+                </button>
+              </td>
+
             </tr>
           </tbody>
         </table>

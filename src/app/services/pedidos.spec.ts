@@ -1,9 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
 import { of } from 'rxjs';
-import { PedidosService } from './pedidos';
+import { PedidosService } from '@services/pedidos'; // 1. Usamos el alias
+import { environment } from '../../environments/environment'; // 2. Centralización de URL
 
 describe('PedidosService (Unit Test)', () => {
-
   it('debería crearse el servicio', () => {
     const httpMock = { post: vi.fn(), get: vi.fn() };
     const service = new PedidosService(httpMock as any);
@@ -12,40 +12,39 @@ describe('PedidosService (Unit Test)', () => {
 
   it('debería ejecutar registrarCompra() enviando POST', () => {
     const mockRespuesta = { mensaje: 'Compra exitosa' };
-    const productoId = 101; // Según tu pedidos.ts, el primer parámetro es productoId
-    const cantidad = 2;     // El segundo parámetro es cantidad
-    
+    const productoId = 101;
+    const cantidad = 2;
+
     const httpMock = {
-      post: vi.fn(() => of(mockRespuesta))
+      post: vi.fn(() => of(mockRespuesta)),
     };
 
     const service = new PedidosService(httpMock as any);
 
-    // Llamada correcta con los dos números que espera el método
-    service.registrarCompra(productoId, cantidad).subscribe(res => {
+    service.registrarCompra(productoId, cantidad).subscribe((res) => {
       expect(res).toEqual(mockRespuesta);
     });
 
-    // Verificamos que el POST se haga al endpoint correcto con el puerto 8083[cite: 7]
-    expect(httpMock.post).toHaveBeenCalledWith(
-      'http://localhost:8083/api/pedidos/comprar',
-      { productoId, cantidad }
-    );
+    // 3. Usamos la URL del environment para que funcione en Docker
+    expect(httpMock.post).toHaveBeenCalledWith(`${environment.apiPedidos}/comprar`, {
+      productoId,
+      cantidad,
+    });
   });
 
   it('debería ejecutar getHistorial() mediante GET', () => {
     const mockHistorial = [{ id: 1, productoId: 101, cantidad: 2 }];
     const httpMock = {
-      get: vi.fn(() => of(mockHistorial))
+      get: vi.fn(() => of(mockHistorial)),
     };
 
     const service = new PedidosService(httpMock as any);
 
-    // getHistorial() no recibe parámetros según tu código[cite: 7]
-    service.getHistorial().subscribe(res => {
+    service.getHistorial().subscribe((res) => {
       expect(res).toEqual(mockHistorial);
     });
 
-    expect(httpMock.get).toHaveBeenCalledWith('http://localhost:8083/api/pedidos');
+    // 4. Usamos la URL base del environment
+    expect(httpMock.get).toHaveBeenCalledWith(environment.apiPedidos);
   });
 });

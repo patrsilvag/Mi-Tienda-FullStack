@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "bundler",
@@ -13,7 +12,10 @@
     "emitDecoratorMetadata": true,
     "useDefineForClassFields": false,
     "paths": {
-      "@analogjs/vitest-angular": ["node_modules/@analogjs/vitest-angular/index.d.ts"]
+      "@services/*": ["./src/app/services/*"],
+      "@models/*": ["./src/app/models/*"],
+      "@components/*": ["./src/app/components/*"],
+      "@analogjs/vitest-angular": ["./node_modules/@analogjs/vitest-angular/index.d.ts"]
     },
     "esModuleInterop": true,
     "types": ["vitest/globals", "node"]

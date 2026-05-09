@@ -25,7 +25,7 @@ export class RegistroComponent {
     private readonly usuarioService: UsuarioService,
   ) {
     this.registroForm = this.fb.group({
-      nombre: ['', [Validators.required, Validators.minLength(3)]],
+      nombre: ['', [Validators.required, Validators.minLength(4)]],
       email: ['', [Validators.required, Validators.email]],
       password: [
         '',
@@ -58,7 +58,8 @@ export class RegistroComponent {
         },
         error: (err: any) => {
           console.error('❌ Error 400 - Validación fallida:', err);
-          alert('Revisa que el nombre tenga al menos 4 caracteres.');
+          const mensaje = err.error?.message || 'Ocurrió un error al registrar el usuario.';
+          alert(mensaje);
         },
       });
     }
