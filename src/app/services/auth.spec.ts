@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { AuthService } from './auth';
 import { of } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 describe('AuthService (sin TestBed)', () => {
 
@@ -29,8 +30,10 @@ describe('AuthService (sin TestBed)', () => {
       });
 
     expect(httpMock.post).toHaveBeenCalledWith(
-      'http://localhost:8082/api/usuarios/login',
-      { email: 'test', password: '123' }
+      //  'http://localhost:8082/api/usuarios/login',
+      // { email: 'test', password: '123' }
+      `${environment.apiUsuarios}/login`, // ✅ Ahora el test es dinámico también
+      { email: 'test', password: '123' },
     );
   });
 

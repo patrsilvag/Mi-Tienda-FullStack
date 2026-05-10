@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
-  // Centralizamos las bases de tus 3 microservicios
-  apiUsuarios: 'http://localhost:8080/api/usuarios',
-  apiProductos: 'http://localhost:8081/api/productos',
-  apiPedidos: 'http://localhost:8083/api/pedidos',
+  // Ahora todo pasa por el Gateway (Puerto 80 implícito)
+  apiUsuarios: 'http://mi-app-docker/api/usuarios',
+  apiProductos: 'http://mi-app-docker/api/productos',
+  apiPedidos: 'http://mi-app-docker/api/pedidos',
 };

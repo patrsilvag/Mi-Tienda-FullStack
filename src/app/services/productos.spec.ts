@@ -1,14 +1,24 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { of } from 'rxjs';
-import { Productos } from './productos';
+import { Productos } from './productos'; // ✅ Corregido: Importa desde tu archivo original
 import { Producto } from '../models/producto';
+import { environment } from '../../environments/environment'; // ✅ Importamos el environment
 
 describe('ProductosService (Unit Test)', () => {
+  let service: Productos;
+  let httpMock: any;
+
+  beforeEach(() => {
+    // Inicializamos el mock antes de cada test para evitar duplicidad de código
+    httpMock = {
+      get: vi.fn(),
+      post: vi.fn(),
+      put: vi.fn(),
+    };
+    service = new Productos(httpMock as any);
+  });
 
   it('debería crearse el servicio', () => {
-    // Creamos un mock manual de HttpClient
-    const httpMock = { get: vi.fn() };
-    const service = new Productos(httpMock as any);
     expect(service).toBeTruthy();
   });
 
@@ -20,22 +30,18 @@ describe('ProductosService (Unit Test)', () => {
         descripcion: 'Descripción A',
         precio: 15000,
         stock: 10,
-      } as Producto
+      } as Producto,
     ];
 
     // Configuramos el mock para devolver el observable con los datos
-    const httpMock = {
-      get: vi.fn(() => of(productosMock))
-    };
-
-    const service = new Productos(httpMock as any);
+    httpMock.get.mockReturnValue(of(productosMock));
 
     service.listarProductos().subscribe((res) => {
       expect(res.length).toBe(1);
       expect(res).toEqual(productosMock);
     });
 
-    // Verificamos que se llame a la URL correcta del puerto 8081[cite: 9]
-    expect(httpMock.get).toHaveBeenCalledWith('http://localhost:8081/api/productos');
+    // ✅ CORRECCIÓN DINÁMICA: Ya no usamos localhost en duro
+    expect(httpMock.get).toHaveBeenCalledWith(environment.apiProductos);
   });
 });

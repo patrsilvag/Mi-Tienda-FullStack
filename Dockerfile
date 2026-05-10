@@ -5,16 +5,12 @@ FROM node:20 AS build
 
 WORKDIR /app
 
-# Copiamos primero los archivos de dependencias para aprovechar la caché de Docker
+# Aprovechamos la caché para las dependencias
 COPY package*.json ./
-
-# Instalamos las dependencias
 RUN npm install --legacy-peer-deps
 
-# Copiamos el resto del código fuente
+# Copiamos el código fuente y compilamos
 COPY . .
-
-# Compilamos la aplicación para producción
 RUN npm run build -- --configuration production
 
 # ==========================================
@@ -22,11 +18,20 @@ RUN npm run build -- --configuration production
 # ==========================================
 FROM nginx:alpine
 
-# ¡Importante! Copiamos los archivos generados al directorio de Nginx.
-# La ruta refleja el nombre exacto de tu proyecto actual.
-COPY --from=build /app/dist/front-tienda-pedidos/browser /usr/share/nginx/html
+# 1. Limpiamos la configuración y archivos por defecto de Nginx
+RUN rm -rf /usr/share/nginx/html/*
+RUN rm /etc/nginx/conf.d/default.conf
 
-# Exponemos el puerto 80 dentro del contenedor
+# 2. Copiamos nuestra configuración interna para el ruteo de Angular
+COPY nginx-internal.conf /etc/nginx/conf.d/default.conf
+
+# 3. Copiamos los archivos generados (ajustado según tu angular.json)
+COPY --from=build /app/dist/front-tienda-pedidos/browser/. /usr/share/nginx/html/
+
+# Aseguramos que Nginx tenga permisos de lectura
+RUN chmod -R 755 /usr/share/nginx/html
+
+# Exponemos el puerto 80 interno
 EXPOSE 80
 
 # Arrancamos Nginx
